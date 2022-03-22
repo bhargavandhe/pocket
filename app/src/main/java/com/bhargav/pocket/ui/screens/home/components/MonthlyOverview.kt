@@ -30,48 +30,50 @@ private const val TAG = "MonthlyOverview"
 fun MonthlyOverview(userData: User, calendar: Calendar) {
     var count by remember { mutableStateOf(3) }
     var toggle by remember { mutableStateOf(false) }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 200,
-                )
-            )
-    ) {
-        val categories = userData.spendings.filter { it.value.title != Categories.MONEY_IN.name }
-        Row(
+    val categories = userData.spendings.filter { it.value.title != Categories.MONEY_IN.name }
+
+    if (categories.values.any { it.total > 0 })
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = innerPadding, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = getDate(date = calendar.timeInMillis, pattern = "MMM, YYYY"),
-                style = MaterialTheme.typography.h5
-            )
-            if (categories.values.filter { it.total > 0 }.size > 3)
-                Text(
-                    text = "show " + if (toggle) "less" else "more",
-                    modifier = Modifier.clickable {
-                        count = if (toggle) 3 else categories.size
-                        toggle = !toggle
-                    }
+                .padding(vertical = 16.dp)
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 200,
+                    )
                 )
-        }
-        var total = 0f
-        categories.forEach { total += it.value.total }
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = innerPadding, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = getDate(date = calendar.timeInMillis, pattern = "MMM, YYYY"),
+                    style = MaterialTheme.typography.h5
+                )
+                if (categories.values.filter { it.total > 0 }.size > 3)
+                    Text(
+                        text = "show " + if (toggle) "less" else "more",
+                        modifier = Modifier.clickable {
+                            count = if (toggle) 3 else categories.size
+                            toggle = !toggle
+                        }
+                    )
+            }
+            var total = 0f
+            categories.forEach { total += it.value.total }
 
-        for (category in categories.values.filter { it.total > 0 }.sortedByDescending { it.total }.take(count)) {
-            CategoryOverview(
-                category = stringCategoryMapping[category.title]!!,
-                amount = category.total,
-                monthlyTotal = total
-            )
+            for (category in categories.values.filter { it.total > 0 }.sortedByDescending { it.total }.take(count)) {
+                CategoryOverview(
+                    category = stringCategoryMapping[category.title]!!,
+                    amount = category.total,
+                    monthlyTotal = total
+                )
+            }
         }
-    }
 }
 
 @Composable

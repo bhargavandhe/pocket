@@ -26,10 +26,11 @@ import com.bhargav.pocket.model.Transaction
 import com.bhargav.pocket.model.TransactionType
 import com.bhargav.pocket.model.categoryMapping
 
+
 @Composable
 fun RecentTransactions(navController: NavController, transactions: List<Transaction>) {
     Text(
-        modifier = Modifier.padding(start = 24.dp),
+        modifier = Modifier.padding(start = 24.dp, top = 16.dp),
         text = "Recent Transactions",
         style = MaterialTheme.typography.h5
     )
