@@ -1,5 +1,6 @@
 package com.bhargav.pocket.ui.screens.add.add_transaction
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -110,18 +111,25 @@ fun AddTransactionScreen(navController: NavHostController) {
             action = {
                 IconButton(
                     onClick = {
-                        isDebit = if (category != Categories.MISC) category != Categories.MONEY_IN else isDebit
-                        viewModel.addTransaction(
-                            Transaction(
-                                title = title,
-                                amount = amount.toFloat(),
-                                transactionType = if (isDebit) TransactionType.DEBIT else TransactionType.CREDIT,
-                                date = viewModel.time.value ?: 0,
-                                category = category,
-                                details = details
+                        isDebit =
+                            if (category != Categories.MISC) category != Categories.MONEY_IN else isDebit
+                        if (title.isNotEmpty() && amount.toFloatOrNull() != null) {
+                            viewModel.addTransaction(
+                                Transaction(
+                                    title = title,
+                                    amount = amount.toFloat(),
+                                    transactionType = if (isDebit) TransactionType.DEBIT else TransactionType.CREDIT,
+                                    date = viewModel.time.value ?: 0,
+                                    category = category,
+                                    details = details
+                                )
                             )
-                        )
-                        navController.popBackStack()
+                            navController.popBackStack()
+                        } else Toast.makeText(
+                            context,
+                            "Please fill out all the fields!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 ) {
                     Icon(imageVector = Icons.Rounded.Check, contentDescription = "save")
@@ -201,7 +209,7 @@ fun AddTransactionScreen(navController: NavHostController) {
             Something(
                 icon = Icons.Default.Schedule,
                 something = {
-                    Text(text = "${getDate(time.value ?: 0L)}, ${getTime(time.value ?: 0L)}")
+                    Text(text = "${getDate(time.value ?: 0L)} - ${getTime(time.value ?: 0L)}")
                 },
                 onClick = { viewModel.selectDateTime(context) }
             )

@@ -99,7 +99,7 @@ fun HistoryScreen(navController: NavController, paddingValues: PaddingValues) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = innerPadding)
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 4.dp),
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
                 placeholder = { Text(text = "Search") },
@@ -110,6 +110,14 @@ fun HistoryScreen(navController: NavController, paddingValues: PaddingValues) {
                 }
             )
 
+            Text(
+                text = "Search feature coming soon ...",
+                modifier = Modifier
+                    .padding(horizontal = innerPadding)
+                    .padding(bottom = 16.dp),
+                style = MaterialTheme.typography.caption
+            )
+
             LazyColumn(
                 state = rememberLazyListState(),
                 modifier = Modifier.fillMaxWidth()
@@ -117,7 +125,13 @@ fun HistoryScreen(navController: NavController, paddingValues: PaddingValues) {
                 itemsIndexed(items = transactions.toList()) { index, transaction ->
                     TransactionListItem(
                         transaction = transaction,
-                        onEdit = { navController.navigate(Routes.EditTransaction.passUUID(transaction.transactionId)) },
+                        onEdit = {
+                            navController.navigate(
+                                Routes.EditTransaction.passUUID(
+                                    transaction.transactionId
+                                )
+                            )
+                        },
                     )
                     if (index < transactions.size - 1) Divider()
                 }

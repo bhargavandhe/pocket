@@ -63,7 +63,7 @@ fun Header(userData: User, navController: NavController) {
             )
         }
 
-        Text(text = "Current balance,", style = MaterialTheme.typography.body2)
+        Text(text = "Your current balance,", style = MaterialTheme.typography.body2)
         Text(
             text = toCurrency(userData.netBalance),
             style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
@@ -92,29 +92,11 @@ fun Header(userData: User, navController: NavController) {
                         tint = SpherePurpleOnContainer
                     )
                     Text(
-                        text = "add new".uppercase(),
+                        text = "add new transaction".uppercase(),
                         style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Medium),
                         color = SpherePurpleOnContainer
                     )
                 }
-            }
-
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = SpherePurpleContainer,
-                        shape = CircleShape
-                    )
-                    .clip(CircleShape)
-                    .clickable { }
-                    .padding(vertical = 8.dp, horizontal = 20.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.CreditCard,
-                    contentDescription = "card",
-                    tint = SpherePurpleOnContainer,
-                    modifier = Modifier.size(20.dp)
-                )
             }
         }
     }

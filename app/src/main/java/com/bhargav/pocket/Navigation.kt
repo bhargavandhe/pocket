@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bhargav.pocket.ui.screens.add.add_transaction.AddTransactionScreen
 import com.bhargav.pocket.ui.screens.edit.edit_transaction.EditTransaction
@@ -26,8 +28,6 @@ import com.bhargav.pocket.ui.screens.onBoading.OnBoarding
 import com.bhargav.pocket.ui.screens.register.RegisterScreen
 import com.bhargav.pocket.ui.screens.settings.SettingsScreen
 import com.bhargav.pocket.ui.screens.settings.EditProfileScreen
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,14 +52,9 @@ sealed class Routes(open val route: String) {
     object History : Routes("history")
 
     object AddTransaction : Routes("add-transactions")
-    object AddPaymentMethod : Routes("add-payment-method")
 
     object EditTransaction : Routes("edit-transaction/{uuid}") {
         fun passUUID(uuid: String): String = "edit-transaction/$uuid"
-    }
-
-    object EditPaymentMethod : Routes("edit-paymentMethod/{paymentMethodId}") {
-        fun passCardDetails(paymentMethodId: String) = "edit-paymentMethod/$paymentMethodId"
     }
 
     object EditProfile : Routes("edit-profile")
@@ -106,12 +101,12 @@ fun Navigation(navController: NavHostController, paddingValues: PaddingValues) {
     var startDestination = Routes.OnBoarding.route
     if (FirebaseAuth.getInstance().currentUser != null) startDestination = Routes.Home.route
 
-    AnimatedNavHost(
+    NavHost(
         navController = navController, startDestination = startDestination,
-        enterTransition = { enterTransition },
-        exitTransition = { exitTransition },
-        popEnterTransition = { popEnter },
-        popExitTransition = { popExit },
+//        enterTransition = { enterTransition },
+//        exitTransition = { exitTransition },
+//        popEnterTransition = { popEnter },
+//        popExitTransition = { popExit },
     ) {
 
         // boarding screen

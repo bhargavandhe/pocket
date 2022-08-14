@@ -2,6 +2,7 @@ package com.bhargav.pocket.ui.screens.edit.edit_transaction
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -133,20 +134,27 @@ fun EditTransaction(navController: NavController, navArgs: Bundle?) {
                     }
                     IconButton(
                         onClick = {
-                            isDebit = if (category != Categories.MISC) category != Categories.MONEY_IN else isDebit
-                            viewModel.editTransaction(
-                                initTransaction = initTransaction.value ?: Transaction(),
-                                transaction = Transaction(
-                                    transactionId = transactionId,
-                                    title = title,
-                                    amount = amount.toFloat(),
-                                    transactionType = if (isDebit) TransactionType.DEBIT else TransactionType.CREDIT,
-                                    date = viewModel.time.value ?: 0,
-                                    category = category,
-                                    details = details,
-                                ),
-                            )
-                            navController.popBackStack()
+                            isDebit =
+                                if (category != Categories.MISC) category != Categories.MONEY_IN else isDebit
+                            if (title.isNotEmpty() && amount.toFloatOrNull() != null) {
+                                viewModel.editTransaction(
+                                    initTransaction = initTransaction.value ?: Transaction(),
+                                    transaction = Transaction(
+                                        transactionId = transactionId,
+                                        title = title,
+                                        amount = amount.toFloat(),
+                                        transactionType = if (isDebit) TransactionType.DEBIT else TransactionType.CREDIT,
+                                        date = viewModel.time.value ?: 0,
+                                        category = category,
+                                        details = details,
+                                    ),
+                                )
+                                navController.popBackStack()
+                            } else Toast.makeText(
+                                context,
+                                "Please fill out all the fields!",
+                                Toast.LENGTH_SHORT
+                            ).show();
                         },
                     ) {
                         Icon(imageVector = Icons.Rounded.Check, contentDescription = "save")
@@ -225,7 +233,7 @@ fun EditTransaction(navController: NavController, navArgs: Bundle?) {
             Something(
                 icon = Icons.Default.Schedule,
                 something = {
-                    Text(text = "${getDate(time.value!!)}, ${getTime(time.value!!)}")
+                    Text(text = "${getDate(time.value!!)} - ${getTime(time.value!!)}")
                 },
                 onClick = { viewModel.selectDateTime(context) }
             )

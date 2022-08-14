@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.bhargav.pocket.Routes
 import com.bhargav.pocket.commons.components.SphereButton
+import com.bhargav.pocket.commons.components.SphereLogo
 
 @Composable
 fun OnBoarding(navController: NavController) {
@@ -21,6 +22,8 @@ fun OnBoarding(navController: NavController) {
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.weight(1f))
+
+        SphereLogo()
 
         Text(
             text = buildAnnotatedString {

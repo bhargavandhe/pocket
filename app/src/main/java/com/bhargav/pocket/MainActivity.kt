@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.bhargav.pocket.ui.theme.SphereTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,8 +57,8 @@ fun Main() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(color = Color.Black)
 
-    val animatedNavHostController = rememberAnimatedNavController()
-    val backStackEntry = animatedNavHostController.currentBackStackEntryAsState()
+    val navController = rememberNavController()
+    val backStackEntry = navController.currentBackStackEntryAsState()
 
     val isValidScreen = listOf(
         Routes.Home.route,
@@ -72,7 +72,7 @@ fun Main() {
         floatingActionButton = {
             if (isValidScreen)
                 FloatingActionButton(
-                    onClick = { animatedNavHostController.navigate(Routes.AddTransaction.route) },
+                    onClick = { navController.navigate(Routes.AddTransaction.route) },
                     backgroundColor = MaterialTheme.colors.primary,
                     contentColor = Color.White,
                     content = { Icon(imageVector = Icons.Rounded.Add, contentDescription = "add") }
@@ -92,7 +92,7 @@ fun Main() {
                         selected = tab.route == backStackEntry.value?.destination?.route,
                         onClick = {
                             if (tab.route != backStackEntry.value?.destination?.route)
-                                animatedNavHostController.navigate(tab.route) { launchSingleTop = true }
+                                navController.navigate(tab.route) { launchSingleTop = true }
                         },
                         alwaysShowLabel = false,
                         selectedContentColor = MaterialTheme.colors.primary,
@@ -102,7 +102,7 @@ fun Main() {
             }
         },
         content = {
-            Navigation(navController = animatedNavHostController, paddingValues = it)
+            Navigation(navController = navController, paddingValues = it)
         }
     )
 }

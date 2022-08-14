@@ -1,5 +1,6 @@
 package com.bhargav.pocket.commons.components
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,13 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.bhargav.pocket.commons.utils.innerPadding
 import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
 fun TitleSuggestions(
-    suggestions: Set<String> = setOf("Money In", "Money Out", "Recharge", "Food"),
+    suggestions: Set<String> = setOf("Money In", "Money Out"),
     onClick: (String) -> Unit
 ) {
     LazyRow(
@@ -28,7 +30,10 @@ fun TitleSuggestions(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = suggestions.toList()) { suggestion ->
-            val text = suggestion.capitalize(Locale("en", "IN"))
+            val text =
+                suggestion.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(Locale("en", "IN")) else it.toString()
+                }
             Chip(onClick = { onClick(text) }) {
                 Text(text = text)
             }

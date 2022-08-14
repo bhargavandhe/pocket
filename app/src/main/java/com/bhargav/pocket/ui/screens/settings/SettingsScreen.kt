@@ -1,6 +1,7 @@
 package com.bhargav.pocket.ui.screens.settings
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -78,6 +80,7 @@ fun SettingsScreen(navController: NavController) {
         },
         onDismiss = { openDialog.value = false }
     )
+    val context = LocalContext.current
 
     val settingsSections = listOf(
         SettingsSection(
@@ -95,7 +98,13 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Payments,
                     action = {
                         Icon(imageVector = Icons.Default.ArrowRight, contentDescription = "go")
-                    }, onClick = { navController.navigate(Routes.ManagePaymentMethods.route) }
+                    }, onClick = {
+                        Toast.makeText(
+                            context,
+                            "Coming soon!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 )
             )
         ), SettingsSection(
@@ -108,7 +117,13 @@ fun SettingsScreen(navController: NavController) {
                     action = {
                         Icon(imageVector = Icons.Default.ArrowRight, contentDescription = "go")
                     },
-                    onClick = { Log.d(TAG, "SettingsScreen: Change password") }
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "Coming soon!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 ), SettingsOptions(
                     title = "Use app lock",
                     subtitle = "Currently turned " + if (appLockSwitch) "on" else "off",
@@ -143,7 +158,13 @@ fun SettingsScreen(navController: NavController) {
                     action = {
                         Icon(imageVector = Icons.Default.ArrowRight, contentDescription = "go")
                     },
-                    onClick = { Log.d(TAG, "SettingsScreen: Help") }
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "Coming soon!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 )
             )
         )
