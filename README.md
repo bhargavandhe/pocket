@@ -3,10 +3,10 @@
 ---
 pocket is an Android Application to keep track of daily income and expenses in a hassle free manner.
 
-![](https://github.com/bhargavandhe/pocket/blob/master/file%20cover%20-%201.png "app logo")
-
 *Try the latest build of the app from the link below*
 [Download APK](https://github.com/bhargavandhe/pocket/releases/download/latest/pocket.apk)
+
+![](https://github.com/bhargavandhe/pocket/blob/master/file%20cover%20-%201.png "app logo")
 
 ### :hammer: Built with:
 
